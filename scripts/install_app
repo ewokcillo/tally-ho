@@ -38,7 +38,12 @@ sudo cp "$CODE_SRC/deploy/etc/nginx/sites-available/nginx.conf" /etc/nginx/sites
 sudo find $CODE_SRC -name '*.pyc' -exec sudo rm {} \;
 sudo chown -R $USER:$USER $PROJECT_HOME
 
-sudo /etc/init.d/nginx restart
+sudo /etc/init.d/nginx stop
+cd $CODE_SRC && source $VENV/$PROJECT_NAME/bin/activate && python manage.py syncdb --noinput --settings=$DJANGO_SETTINGS_MODULE
+cd $CODE_SRC && source $VENV/$PROJECT_NAME/bin/activate && python manage.py migrate --settings=$DJANGO_SETTINGS_MODULE
+cd $CODE_SRC && source $VENV/$PROJECT_NAME/bin/activate && python manage.py collectstatic --noinput --settings=$DJANGO_SETTINGS_MODULE
+sudo /etc/init.d/nginx start
+
 sudo mkdir -p /var/log/uwsgi
 sudo chown -R $USER /var/log/uwsgi
 sudo start tally
