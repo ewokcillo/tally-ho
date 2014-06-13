@@ -26,6 +26,7 @@ sudo pip install virtualenvwrapper uwsgi
 
 sudo -u postgres psql -U postgres -d postgres -c "CREATE USER $DB_USER with password '$DB_PASS';"
 sudo -u postgres psql -U postgres -d postgres -c "CREATE DATABASE $DB_USER OWNER $DB_USER;"
+sudo -u postgres psql -U postgres -d postgres -c "ALTER USER $DB_USER createdb;"
 
 sudo mkdir -p $PROJECT_HOME
 sudo chown -R `whoami`:`whoami` $PROJECT_HOME
