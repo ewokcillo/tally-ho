@@ -103,6 +103,7 @@ def deploy(deployment_name, branch='master'):
 
 def reload_all(deployment_name):
     setup_env(deployment_name)
+    env.use_ssh_config = True if getattr(env, 'from_local', False) else False
     with cd(env.code_src):
         with source(env.virtualenv):
             run('./scripts/reload_all tally 127.0.0.1 %s' %
