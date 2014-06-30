@@ -90,7 +90,29 @@ class FormNotReceivedListView(FormListView):
     def get(self, *args, **kwargs):
         format_ = kwargs.get('format')
         if format_ == 'csv':
-            form_list = ResultForm.forms_in_state(FormState.UNSUBMITTED)
+            form_list = ResultForm.forms_in_state(FormState.UNSUBMITTED).\
+                values('id',
+                       'created_date',
+                       'modified_date',
+                       'ballot_id__number',
+                       'center_id__code',
+                       'user_id__username',
+                       'created_user_id__username',
+                       'audited_count',
+                       'barcode',
+                       'date_seen',
+                       'form_stamped',
+                       'form_state',
+                       'gender',
+                       'name',
+                       'office_id__number',
+                       'rejected_count',
+                       'serial_number',
+                       'skip_quarantine_checks',
+                       'station_number',
+                       'is_replacement',
+                       'intake_printed',
+                       'clearance_printed')
             return render_to_csv_response(form_list)
 
         return self.render_to_response(
